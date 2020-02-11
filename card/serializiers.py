@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from .models import Card
 # создаем сериализайзер для отображение данных в списки питон
 class CardSerializers(serializers.Serializer):
@@ -16,4 +15,5 @@ class CardSerializers(serializers.Serializer):
         instance.man_id = validated_data.get('man_id', instance.man_id)
         instance.save()
         return instance
+
 

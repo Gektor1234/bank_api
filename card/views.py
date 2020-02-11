@@ -1,3 +1,4 @@
+from django.db import  transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializiers import CardSerializers
@@ -26,10 +27,19 @@ class CardView(APIView):
         data = request.data.get('card')
         serializer = CardSerializers(instance=saved_card, data=data, partial=True)
         if serializer.is_valid(raise_exception=True):
-            card_saved = serializer.save()
+            saved_card = serializer.save()
         return Response({'result':'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})   # подтверждение перевода,дата и время
 
     def delete(self, request, pk):    # удаление карты в случае ее просрочки
         card = get_object_or_404(Card.objects.all(), pk=pk)
         card.delete()
         return Response({'result': 'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})
+
+
+
+
+
+
+
+
+
