@@ -22,6 +22,7 @@ class CardView(APIView):
             card_saved = serializer.save()
         return Response({"result": 'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})
 
+    @transaction.atomic
     def put(self, request, pk): # изменение баланса либо любого другого параметра карты
         saved_card = get_object_or_404(Card.objects.all(), pk=pk)
         data = request.data.get('card')
