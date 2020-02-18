@@ -12,6 +12,11 @@ class Card(models.Model):
     balance = models.IntegerField() # баланс
     man = models.ForeignKey('Man', related_name='cards', on_delete=models.CASCADE)   # держатель карты
 
+class Transaction(models.Model):
+    number = models.IntegerField()
+    balance = models.IntegerField()
+    man = models.ForeignKey('Man', related_name='transaction', on_delete=models.CASCADE)
+
 
 
 

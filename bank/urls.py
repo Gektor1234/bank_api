@@ -19,5 +19,5 @@ from django.urls import path,include
 # подключение url-адресов в основной файл
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include ('card.urls')),
+    path('', include('card.urls')),
 ]

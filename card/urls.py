@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import CardView
+from .views import CardView, TransactionView
 
 app_name = 'Cards'
 
@@ -8,4 +8,5 @@ app_name = 'Cards'
 urlpatterns = [
     path('cards/', CardView.as_view()),
     path('cards/<int:pk>', CardView.as_view()),
+    path('transaction/<int:pk>', TransactionView.as_view()),
 ]
