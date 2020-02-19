@@ -5,6 +5,8 @@ from .serializiers import CardSerializers, TransactionSerializers
 from .models import Card, Transaction
 from rest_framework.generics import get_object_or_404
 from datetime import datetime
+from django.db import IntegrityError
+from django.shortcuts import HttpResponse
 
 today = datetime.today()
 
@@ -16,20 +18,26 @@ class CardView(APIView):
 
 class AddCard(APIView):
     def post(self, request):  # создание новой карты
-        card = request.data.get('card')
-        serializer = CardSerializers(data=card)
-        if serializer.is_valid(raise_exception=True):
-            card_saved = serializer.save()
-        return Response({"result": 'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})
+        try:
+            card = request.data.get('card')
+            serializer = CardSerializers(data=card)
+            if serializer.is_valid(raise_exception=True):
+                card_saved = serializer.save()
+            return Response({"result": 'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})
+        except IntegrityError:
+            return HttpResponse("Ошибка: Введены не корректные данные!")
 
 class ChangeCard(APIView):
     def put(self, request, pk): # изменение баланса либо любого другого параметра карты
-        saved_card = get_object_or_404(Card.objects.all(), pk=pk)
-        data = request.data.get('card')
-        serializer = CardSerializers(instance=saved_card, data=data, partial=True)
-        if serializer.is_valid(raise_exception=True):
-            saved_card = serializer.save()
-        return Response({'result':'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})   # подтверждение перевода,дата и время
+        try:
+            saved_card = get_object_or_404(Card.objects.all(), pk=pk)
+            data = request.data.get('card')
+            serializer = CardSerializers(instance=saved_card, data=data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                saved_card = serializer.save()
+            return Response({'result':'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})   # подтверждение перевода,дата и время
+        except IntegrityError:
+            return HttpResponse("Ошибка: Введены не корректные данные!")
 
 class DeleteCard(APIView):
     def delete(self, request, pk):    # удаление карты в случае ее просрочки
