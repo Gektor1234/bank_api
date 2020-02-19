@@ -11,7 +11,8 @@ class Man(models.Model):
 class Card(models.Model):
     number = models.PositiveIntegerField(default=0) # номер карты
     balance = models.PositiveIntegerField(default=0) # баланс
-    man = models.ForeignKey('Man', related_name='cards', on_delete=models.CASCADE)   # держатель карты
+    man = models.ForeignKey('Man', related_name='cards', on_delete=models.CASCADE)    # держатель карты
+
 
     class Meta:
         managed = True
@@ -24,7 +25,8 @@ class Transaction(models.Model):
     number = models.PositiveIntegerField(default=0)
     balance = models.PositiveIntegerField(default=0)
     man = models.ForeignKey('Man', related_name='transaction', on_delete=models.CASCADE)
-
+    time_transaction = models.TimeField(auto_now=True)
+    data_transaction = models.DateField(auto_now=True)
 
 
 

@@ -6,6 +6,8 @@ class TransactionSerializers(serializers.Serializer):
     number = serializers.IntegerField()
     balance = serializers.IntegerField()
     man_id = serializers.IntegerField()
+    time_transaction = serializers.TimeField()
+    date_transaction = serializers.DateField()
 
 class CardSerializers(serializers.Serializer):
     number = serializers.IntegerField()
