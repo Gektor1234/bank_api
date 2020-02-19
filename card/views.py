@@ -14,6 +14,7 @@ class CardView(APIView):
         serializer = CardSerializers(cards, many=True)
         return Response({'cards': serializer.data})
 
+class AddCard(APIView):
     def post(self, request):  # создание новой карты
         card = request.data.get('card')
         serializer = CardSerializers(data=card)
@@ -21,6 +22,7 @@ class CardView(APIView):
             card_saved = serializer.save()
         return Response({"result": 'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})
 
+class ChangeCard(APIView):
     def put(self, request, pk): # изменение баланса либо любого другого параметра карты
         saved_card = get_object_or_404(Card.objects.all(), pk=pk)
         data = request.data.get('card')
@@ -29,6 +31,7 @@ class CardView(APIView):
             saved_card = serializer.save()
         return Response({'result':'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})   # подтверждение перевода,дата и время
 
+class DeleteCard(APIView):
     def delete(self, request, pk):    # удаление карты в случае ее просрочки
         card = get_object_or_404(Card.objects.all(), pk=pk)
         card.delete()

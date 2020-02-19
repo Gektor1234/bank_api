@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Создание моделей держателя карты и самой карты в админпанельке.
 class Man(models.Model):
     name = models.CharField(max_length=255)
