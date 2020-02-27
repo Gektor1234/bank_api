@@ -70,10 +70,10 @@ class AddMaster(APIView):
             return HttpResponse("Ошибка: Введены не корректные данные!")
 
 class RealSwap(APIView):
-    def put(self, request,pk): # изменение баланса либо любого другого параметра карты
+    def put(self, request,pk,pk1): # изменение баланса либо любого другого параметра карты
         try:
-            masterchek = get_object_or_404(MasterChek.objects.filter(man_id=2))
-            masterchek1 = get_object_or_404(MasterChek.objects.filter(man_id=1))
+            masterchek = get_object_or_404(MasterChek.objects.filter(man_id=pk))
+            masterchek1 = get_object_or_404(MasterChek.objects.filter(man_id=pk1))
             c = masterchek1.balance
             b = masterchek.balance
             data1 = request.data.get('master')
@@ -83,9 +83,8 @@ class RealSwap(APIView):
             ww=c
             b = b - cc
             cc = b
-
             r ={'man_id':pk, 'balance':cc}
-            f = {'man_id':1,'balance': ww}
+            f = {'man_id':pk1,'balance': ww}
             serializier_old = MasterSerializiers(instance=masterchek, data=r)
             serializier_old1 = MasterSerializiers(instance=masterchek1,data=f)
             if serializier_old.is_valid(raise_exception=True):

@@ -14,5 +14,5 @@ urlpatterns = [
     path('Masteradd/', AddMaster.as_view()),
     path('Mans', ShowMan.as_view()),
     path('Addman',AddMan.as_view()),
-    path('swap/<int:pk>',RealSwap.as_view()),
+    path('swap/<int:pk>/<int:pk1>',RealSwap.as_view()),
 ]
