@@ -28,5 +28,12 @@ class Transaction(models.Model):
     time_transaction = models.TimeField(auto_now=True)
     data_transaction = models.DateField(auto_now=True)
 
+class MasterChek(models.Model):
+    man = models.ForeignKey('Man',related_name='MasterChek',on_delete=models.CASCADE)
+    balance = models.PositiveIntegerField(default=0)
+
+
+
+
 
 
