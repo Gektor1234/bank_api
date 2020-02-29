@@ -69,31 +69,31 @@ class AddMaster(APIView):
         except IntegrityError:
             return HttpResponse("Ошибка: Введены не корректные данные!")
 
-class RealSwap(APIView):
+class Simple_Transaction(APIView):
     def put(self, request,pk,pk1): # изменение баланса либо любого другого параметра карты
         try:
-            masterchek = get_object_or_404(MasterChek.objects.filter(man_id=pk))
-            masterchek1 = get_object_or_404(MasterChek.objects.filter(man_id=pk1))
-            c = masterchek1.balance
-            b = masterchek.balance
-            data1 = request.data.get('master')
-            cc = data1.get('balance')
-            ww =data1.get('balance')
-            c = c + ww
-            ww=c
-            b = b - cc
-            cc = b
-            r ={'man_id':pk, 'balance':cc}
-            f = {'man_id':pk1,'balance': ww}
-            serializier_old = MasterSerializiers(instance=masterchek, data=r)
-            serializier_old1 = MasterSerializiers(instance=masterchek1,data=f)
-            if serializier_old.is_valid(raise_exception=True):
-                masterchek = serializier_old.save()
-            if serializier_old1.is_valid(raise_exception=True):
-                masterchek1 = serializier_old1.save()
+            account = get_object_or_404(MasterChek.objects.filter(man_id=pk))
+            account2 = get_object_or_404(MasterChek.objects.filter(man_id=pk1))
+            user_balance2 = account2.balance
+            user_balance = account.balance
+            data = request.data.get('master')
+            summa = data.get('balance')
+            summa2 = data.get('balance')
+            user_balance2 = user_balance2 + summa2
+            summa2 = user_balance2
+            user_balance = user_balance - summa
+            summa = user_balance
+            new_params = {'man_id': pk, 'balance': summa}
+            new_params2 = {'man_id': pk1, 'balance': summa2}
+            serializier_account = MasterSerializiers(instance=account, data=new_params)
+            serializier_account2 = MasterSerializiers(instance=account2, data=new_params2)
+            if serializier_account.is_valid(raise_exception=True):
+                account = serializier_account.save()
+            if serializier_account2.is_valid(raise_exception=True):
+                account2 = serializier_account2.save()
             return Response({'result':'ok', 'date': today.strftime("%Y-%m-%d-%H.%M.%S")})   # подтверждение перевода,дата и время
         except IntegrityError:
-            return HttpResponse("Ошибка: Введены не корректные данные!")
+            return HttpResponse("Ошибка: Нет денег Антон!")
 
 
 class ShowMan(APIView):

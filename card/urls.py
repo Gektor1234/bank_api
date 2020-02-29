@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import CardView, TransactionView, AddCard, ChangeCard, DeleteCard, MasterView,AddMaster,ShowMan,AddMan,RealSwap
+from .views import CardView, TransactionView, AddCard, ChangeCard, DeleteCard, MasterView,AddMaster,ShowMan,AddMan,Simple_Transaction
 app_name = 'Cards'
 
 # создание url-адрес для получения доступа к методам
@@ -14,5 +14,5 @@ urlpatterns = [
     path('Masteradd/', AddMaster.as_view()),
     path('Mans', ShowMan.as_view()),
     path('Addman',AddMan.as_view()),
-    path('swap/<int:pk>/<int:pk1>',RealSwap.as_view()),
+    path('tran/<int:pk>/<int:pk1>',Simple_Transaction.as_view()),
 ]
